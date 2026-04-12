@@ -1,0 +1,10 @@
+Is this Optimal?Yes, in terms of Time and Space complexity.Time Complexity: $O(n)$ because you traverse the array exactly once.Space Complexity: $O(1)$ because you are swapping elements in place.Refinement Note:In your else block, you assume that if the conditions (1, 1) and (1, 0) aren't met, both i and j should move. However, if arr[i] is 0, it's already in the correct spot, but j might still be pointing at something you haven't checked. A cleaner version of this is the Dutch National Flag (simplified for 2 colors).📝 Logic Notes: Segregating 0s and 1s1. GoalThe objective is to move all 0s to the beginning and all 1s to the end of the array without using extra space.2. Pointer RolesPointer i (The Boundary): This keeps track of the position where the next 0 should be placed. Everything to the left of i is guaranteed to be 0.Pointer j (The Explorer): This scans the array from left to right to find 0s.3. The Cases in Your CodeCaseConditionActionWhy?Case 1arr[i]==1 and arr[j]==1j++We found a 1 at the boundary, but the explorer also found a 1. We leave i where it is and keep looking for a 0.Case 2arr[i]==1 and arr[j]==0swap, i++, j++We found a 0 that belongs at the front. Swap it with the 1 at the boundary.Case 3Everything elsei++, j++This handles cases where arr[i] is already 0.🚀 Suggested Clean-upYour logic can be simplified to handle the "0 at the start" case more robustly. Here is the industry-standard way to write this "Two-Pointer" approach:C++void segregate0and1(vector<int> &arr) {
+    int left = 0;
+    for (int right = 0; right < arr.size(); right++) {
+        if (arr[right] == 0) {
+            swap(arr[left], arr[right]);
+            left++;
+        }
+    }
+}
+Why this version is preferred:Readability: It clearly shows that whenever we find a 0, we toss it to the left pointer and move the boundary.Safety: It avoids complex if-else if chains that might skip an element if the pointers aren't perfectly synchronized.Standard Practice: This is the same logic used in the Partition step of QuickSort.
